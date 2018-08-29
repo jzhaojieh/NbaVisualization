@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "### Demo_2_3_starter: SAT Data ###\n# First part of In-Class R Demo\n\n###############################\n# Read in the data\n###############################\ndata = read.table(\"CASE1201.ASC\", header = TRUE)\ndata[1:4,]\nattach(data)\n\n###############################\n# Exploratory Data Analysis\n###############################\n\n# Histograms\npar(mfrow = c(2, 4))\nhist(sat, main = \"Histogram of SAT Scores\", xlab = \"Mean SAT Score\", col = 1)\nhist(takers, main = \"Histogram of Takers\", xlab = \"Percentage of students tested\", col = 2)\nhist(income, main = \"Histogram of Income\", xlab = \"Mean Household Income ($100s)\", col = 3)\nhist(years, main = \"Histogram of Years\", xlab = \"Mean Years of Sciences and Humanities\", col = 4)\nhist(public, main = \"Public Schools Percentage\", xlab = \"Percentage of Students in Public Schools\", col = 5)\nhist(expend, main = \"Histogram of Expenditures\", xlab = \"Schooling Expenditures per Student ($100s)\", col = 6)\nhist(rank, main = \"Histogram of Class Rank\", xlab = \"Median Class Ranking Percentile\", col = 7)\n\n# Check outlier\ndata[which(expend == max(expend)), ]\n\n# Look at the data together\npar(mfrow = c(1, 1))\nplot(data[,-1]) #scatterplot matrix of ’data’, ignoring the first column.\nround(cor(data[,-1]), 2)\n\n# Rest of demo in-class (R code not included here in 'starter' code)\n\n# Fit a full regression line to all the variables\n# Check residuals\n# Reduced model\n# Sort SAT scores after adjusting for 'takers' and 'rank'\n# Check residuals of reduced model\n# Improve residuals and linear fit by transforming variables",
+    "created" : 1520515079212.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1227148847",
+    "id" : "B05F06EA",
+    "lastKnownWriteTime" : 1518716997,
+    "last_content_update" : 1518716997,
+    "path" : "~/Documents/College/17/Spring/Regression/Demo2_3_starter_SAT.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

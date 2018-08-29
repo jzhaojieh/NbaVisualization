@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"36-402 Homework 2\"\nauthor: \"Dylan Hyun (dchyun)\"\ndate: \"1/31/2018\"\noutput: pdf_document\n---\n\n```{r setup, include=FALSE}\nlibrary(knitr)\nlibrary(kableExtra)\nknitr::opts_chunk$set(echo = TRUE)\n```\n\n## 1. \n\n```{r}\nhouse.train = read.csv(\"housetrain.csv\")\nhouse.test = read.csv(\"housetest.csv\")\n```\n  \n**A.**\n  \n```{r}\ntrain.cov = cov(house.train)\ntrain.cov\npairs(house.train, pch=\".\")\n```\n  \nAs seen in the covariance matrix, excluding the relationship between median and mean household income, the two most positively correlated predictors are median house value and mean household income. The two most negitively correlated predictors are longitude and mean household income. \n  \n**B.**\n\n```{r}\npar(mfrow=c(2,2))\nm0 = lm(Median_house_value~1, data=house.train)\nm1 = lm(Median_house_value~Median_household_income, data=house.train)\nm2 = lm(Median_house_value~Mean_household_income, data=house.train)\nm3 = lm(Median_house_value~Median_household_income+Mean_household_income, data=house.train)\nmodels = c(\"m0\",\"m1\",\"m2\",\"m3\")\nx = house.train$Median_house_value\nsummary(m0)\nplot(x, residuals(m0), pch = \".\")\nsummary(m1)\nplot(x, residuals(m1), pch = \".\")\nsummary(m2)\nplot(x, residuals(m2), pch = \".\")\nsummary(m3)\nplot(x, residuals(m3), pch = \".\")\n```\nFor the null model the assumption of the residuals being evenly spread around 0 is clearly violated as well as the normality assumption. The other three models show signs of breaking these assumptions as it appears that the residuals increase as x increases, and the variance increases as x increases. \n  \n**C.**\n  \nThe third model using the combination of covariates median household income and mean household income has covariates unequal to those of the previous two models, because the third in a multiple linear regression using both of those terms, but the other two models only use those terms exclusively in a simple linear regression model. \n  \n**D.**\n  \n```{r}\np0 = predict(m0, newdata = house.test)\np1 = predict(m1, newdata = house.test)\np2 = predict(m2, newdata = house.test)\np3 = predict(m3, newdata = house.test)\nmse0 = mean((house.train - p0)^2)\nmse1 = mean((house.train - p1)^2)\nmse2 = mean((house.train - p2)^2)\nmse3 = mean((house.train - p3)^2)\nModel = c(\"M0\", \"M1\", \"M2\", \"M3\")\nMSE = c(mse0, mse1, mse2, mse3)\nerrors = data.frame(Model, MSE)\nkable(errors, caption = \"Test Errors\")\n```\n  \nEven though the null model has the lowest MSE, since it so clearly violated the normality assumption for the residuals I believe the model with the next lowest MSE, model 3, is the best choice. This was the model that included both median and mean household income. It also had an R-squared value of 0.48, which was higher than the R-squared score for the other two models. ",
+    "created" : 1520390914821.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3955368657",
+    "id" : "92F41074",
+    "lastKnownWriteTime" : 1517609567,
+    "last_content_update" : 1517609567,
+    "path" : "~/Documents/College/17/Spring/Regression/hw2.Rmd",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

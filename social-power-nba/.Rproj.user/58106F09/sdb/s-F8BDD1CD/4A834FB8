@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"36-401 Homework 1\"\nauthor: \"Dylan Hyun (dchyun)\"\ndate: \"1/23/2018\"\noutput: pdf_document\n---\n\n```{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = TRUE)\nlibrary(np)\n```\n\n##1. Kerenal Regression\n\n**A.**\n  \n```{r} \nload(\"engine.Rdata\")\nplot(engine.xtrain, engine.ytrain, xlab=\"X Training Data\", ylab = \"Y Training Data\")\n```\n  \n**B.**\n  \n```{r} \nx = engine.xtrain[,1]\ny = engine.ytrain[,1]\nfirst = data.frame(x,y)\nplot(engine.xtrain, engine.ytrain, xlab=\"X Training Data\", ylab = \"Y Training Data\", pch = 20)\nkregobj=npreg(y~x,data=first,bws=10)\nlines(x0,predict(kregobj,newdata=data.frame(x=x0)), col = \"blue\")\nkregobj=npreg(y~x,data=first,bws=50)\nlines(x0,predict(kregobj,newdata=data.frame(x=x0)), col=\"red\")\nkregobj=npreg(y~x,data=first,bws=100)\nlines(x0,predict(kregobj,newdata=data.frame(x=x0)), col = \"green\")\n```\n  \n**C.**\n  \nAs the bandwidth paramater increases the data becomes more and more overfitted. This is similar to k-nearest neighbors, where decreasing the size of the neighborhood can increase the overfitting of the data as well. \n  \n**D.**\n  \n```{r}\ntotal_h = 30\ntest_errors = numeric(total_h)\nfor (i in 1:total_h) {\n  h=i*5\n  kregobj=npreg(y~x,data=first,bws=h)\n  prediced_vals = predict(kregobj,newdata=data.frame(x=engine.xtest[,1]))\n  test_errors[i] = sum((prediced_vals - engine.ytest[,1])^2)/32\n}\nx = seq(from = 5, to = 150, by = 5)\nplot(seq(from = 5, to = 150, by = 5), test_errors, xlab=\"Bandwidth Value\", ylab=\"Test Error\", main = \"Test Errors for Various Bandwidths\")\n``` \n  \n**E.**\n  \nAccording to the graph, the optimal bandwidth to use is $h=30$\n  \n```{r}\nx = engine.xtrain[,1]\ny = engine.ytrain[,1]\nfirst = data.frame(x,y)\nplot(engine.xtrain, engine.ytrain, xlab=\"X Training Data\", ylab = \"Y Training Data\", pch = 20)\nkregobj=npreg(y~x,data=first,bws=30)\nlines(x0,predict(kregobj,newdata=data.frame(x=x0)), col = \"red\")\n```\n  \nThe line appears to be a good fit for the training data. The line generally runs straight through the middle of the majority of the points for a given x, and is smooth enough to not be overfitted. The only spot in question is the bump in the line around x=400. \n  \n**F.**\n  \n```{r}\ntotal_h = 30\navg_test_errors = numeric(total_h)\nfor (j in 1:40) {\n  for (i in 1:total_h) {\n    h=i*5\n    kregobj=npreg(y~x,data=first,bws=h)\n    prediced_vals = predict(kregobj,newdata=data.frame(x=engine.xtest[,j]))\n    avg_test_errors[i] = avg_test_errors[i] + sum((prediced_vals - engine.ytest[,j])^2)/32\n  }\n}\nfor (i in 1:total_h) {\n  avg_test_errors[i] = avg_test_errors[i]/40\n}\nx = seq(from = 5, to = 150, by = 5)\nplot(seq(from = 5, to = 150, by = 5), avg_test_errors, xlab=\"Bandwidth Value\", ylab=\"Avg. Test Error\", main = \"Avg. Test Errors for Various Bandwidths\")\n```\n  \nNow the optimal bandwidth is at $h=40$ with an average test error of 8.731 comparred to the test error of only one set of training data that had an optimal bandwidth of $h=30$ and a test error of 8.799. \n  ",
+    "created" : 1520390911588.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1531682111",
+    "id" : "4A834FB8",
+    "lastKnownWriteTime" : 1516988652,
+    "last_content_update" : 1516988652,
+    "path" : "~/Documents/College/17/Spring/Regression/hw1.Rmd",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

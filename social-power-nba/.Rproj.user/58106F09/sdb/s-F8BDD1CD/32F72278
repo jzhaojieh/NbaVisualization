@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"Homework 5\"\nauthor: \"Dylan Hyun (dchyun)\"\ndate: \"2/23/2018\"\noutput: pdf_document\n---\n\n```{r setup, include=FALSE}\nknitr::opts_chunk$set(echo = TRUE)\nlibrary(knitr)\nlibrary(kableExtra)\n```\n\n## 1.\n  \n**A.**\n\n\\[\nE[X_j] = E[E[X_j|Y_j]] \\\\\n= E[\\frac{1}{2} Y_j] \\\\\n= \\frac{1}{2}E[Y_j] \\\\\n= \\frac{1}{2}\\times\\frac{1}{\\lambda} \\\\\n= \\frac{1}{2\\lambda}\n\\]\n  \n**B.**\n  \n\\[\nf_x(x) = \\int{f_{x,y}(X,Y)dy} \\\\\n= \\int{f_y(Y)f_{x|y}(X|Y)dy} \\\\\n= \\int{\\lambda e^{-y\\lambda}\\frac{1}{y}dy} \\\\\n= \\int{\\frac{\\lambda}{y}e^{-y\\lambda}dy}\n\\]\n  \n**C.**\n  \n```{r}\npar(mfrow=c(2,2))\nn = 1000\nlambda = 0.5\nynstar = rexp(n, lambda)\nhist(ynstar)\nxnstar = runif(n)*ynstar\nhist(xnstar)\n```\n  \n**D.**\n  \n```{r}\ndata = read.table(\"expunif.dat\", header = TRUE)\nlh = 1/(2*(sum(data)/length(data)))\nlh\n```\n    \n```{r}\nB = 10000\nn = length(data)\nlhstar = rep(0,B)\nfor (i in 1:B) {\n  ynstar = rexp(n, lh)\n  xnstar = runif(n)*ynstar\n  lhstar[i] = 1/(2*(sum(xnstar)/n))\n}\nsd = sd(lhstar)\nbias = sum(lhstar)/B - lh\nbias_se = (1/sqrt(B))*sd\nStatistics = c(\"SD\", \"Bias\", \"SE of Bias\")\nValues =  c(sd,bias,bias_se)\nkable(data.frame(Statistics,Values), caption = \"Simulation Statistics\")\n```\n  \n**E.**\n  \n```{r}\nNormal = c(lh - 2*sd, lh + 2*sd);\npercentile = c(quantile(lhstar, 0.025), quantile(lhstar, 0.975));\npivotal = c(2*lh - quantile(lhstar,.975),\n            2*lh - quantile(lhstar,.025));\nprint(Normal)\nprint(percentile)\nprint(pivotal)\nhist(lhstar,breaks = 10000, xlim = c(0,1))\n```\n  \nThe histogram shows that a normal confidence interval is not fit for this data, since the estimates of lambda are not normally distributed. The best confidence interval for this data would be a pivotal confidence interval, since the data is so heavily skewed to the right. \n  \n\\newpage\n##2.\n  \n**A.**\n  \n```{r}\nhouse.train = read.csv(\"housetrain.csv\")\nhouse.test = read.csv(\"housetest.csv\")\nhouse.data=rbind(house.train,house.test)\n\nB = 200\nmsestar = rep(0,B)\nfor (i in 1:B){\n  errors = matrix(nrow = 5, ncol = 2)\n  set.seed(i)\n  K = 5\n  fold.assignments = rep(1:K,length=n)\n  fold.assignments = sample(fold.assignments)  # assign each pt to a fold, at random\n\n  # Perform cross-validation\n  samp=sample(rep(1:5,2121),replace=F)\n  for(k in 1:5){\n    testd=house.data[samp==k,]\n    traind=house.data[!(samp==k),]\n    \n    for (d in 0:2) {\n      # Fit model\n      if (d == 0) {\n        m2 = lm(Median_house_value~Mean_household_income, data=house.train)\n        pred = predict(m2, testd)\n        errors[k,1] = mean((testd$Median_house_value-pred)^2)\n      }\n      if (d == 1){\n          m3 = lm(Median_house_value~Median_household_income+Mean_household_income, data=house.train)\n          pred = predict(m3, testd)\n          errors[k,2] = mean((testd$Median_house_value-pred)^2)\n      }\n    }\n  }\n  Avg_Error = colMeans(errors)\n  SE = apply(errors,2,sd)/sqrt(K)\n  mse2star = SE[1]\n  mse3star = SE[2]\n  msestar[i] = mse2star - mse3star\n}\nhist(msestar)\n```\n  \nThe histogram shows that model 2 may be slightly better than model 3, but they are fairly close. \n  \n**B.**\n  \n```{r}\ntstar = msestar\nqqnorm(tstar)\nqqline(tstar)\n```\n  \nThe qq-norm plot of T star does look like a sample of normal random variables, with only slight deviation from normality in the tails. \n  \n```{r}\nt.test(tstar, mu=0)\n```\n  \nIt still appears that one model is not ant better than the other, since the t-test does not reject the null hypothesis.",
+    "created" : 1520390921947.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2194633969",
+    "id" : "32F72278",
+    "lastKnownWriteTime" : 1519406858,
+    "last_content_update" : 1519406858,
+    "path" : "~/Documents/College/17/Spring/Regression/hw5.Rmd",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

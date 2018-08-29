@@ -1,0 +1,9 @@
+"0","par(mfrow=c(2,2))
+plot(abalone$Diameter+abalone$Length+abalone$Height, residuals(m1), ylab=""Prediction Error (Shucked Wt)"", xlab=""Predictor Variables"", main = ""M1 Residuals vs. Predictors"", pch=20, col=""lightblue3"")
+plot(abalone$Diameter+abalone$Length+abalone$Height, residuals(m1)^2, ylab=""Prediction Error (Shucked Wt) Sq"", xlab=""Predictor Variables"", main = ""M1 Residuals Sq vs. Predictors"", pch=20, col=""lightblue3"")
+hist(residuals(m1), breaks = 75,  xlab=""Prediction Error (Shucked Wt)"", main = ""Histogram of M1 Residuals"", pch=20, col=""lightblue3"")
+qqnorm(residuals(m1),pch=20,col=""lightblue3"")
+qqline(residuals(m1),pch=20,col=""lightblue3"")
+plot(abalone$Diameter+abalone$Length+abalone$Height, residuals(m2),ylab=""Prediction Error (Shucked Wt)"", xlab=""Predictor Variables"", main = ""M2 Residuals vs. Predictors"", pch=20, col=""lightblue3"")
+"
+"0","plot(abalone$Diameter+abalone$Length+abalone$Height, residuals(m2)^2,ylab=""Prediction Error (Shucked Wt) Sq"", xlab=""Predictor Variables"", main = ""M2 Residuals Sq vs. Predictors"", pch=20, col=""lightblue3"")"

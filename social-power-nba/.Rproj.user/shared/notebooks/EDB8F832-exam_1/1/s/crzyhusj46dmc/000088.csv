@@ -1,0 +1,1 @@
+"0","hist(residuals(m3), breaks = 75, xlab=""Prediction Error (Shucked Wt)"", main = ""Histogram of M3 Residuals"", pch=20, col=""lightblue3"")"

@@ -1,0 +1,26 @@
+"0","B = 1000
+tstars = rep(0,B)
+tobs = 0
+for (i in (1:B)) {
+  m.resid.sample = sample(cats.m.resid,nm, replace = TRUE)
+  x_m.sample = sample(cats.m$Bwt,nm, replace = TRUE)
+  f.resid.sample = sample(cats.f.resid,nf, replace = TRUE)
+  x_f.sample = sample(cats.m$Bwt,nm, replace = TRUE)
+  
+  y_m.sample = x_m.sample+m.resid.sample
+  y_f.sample = x_f.sample+f.resid.sample
+  
+  cats.m.sample.lm = lm(y_m.sample~x_m.sample)
+  cats.f.sample.lm = lm(y_f.sample~x_f.sample)
+  
+  tstar = (cats.m.sample.lm$coefficients[1] - cats.f.sample.lm$coefficients[1])^2 +
+    (cats.m.sample.lm$coefficients[2] - cats.f.sample.lm$coefficients[2])^2
+  tstars[i] = tstar
+}
+p = 1 - length(which(tstars>=tobs))/B
+print(p)
+"
+"1","[1]"
+"1"," 0.007"
+"1","
+"

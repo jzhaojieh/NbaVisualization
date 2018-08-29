@@ -1,0 +1,1 @@
+"0","plot(abalone$Diameter+abalone$Length+abalone$Height, m3$resid,ylab=""Prediction Error (Shucked Wt)"", xlab=""Predictor Variables"", main = ""M3 Residuals vs. Predictors"", pch=20, col=""lightblue3"")"
